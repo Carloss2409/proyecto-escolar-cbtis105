@@ -1,0 +1,15 @@
+
+{
+"compilerOptions": {
+    "target": "es6",
+    "module": "es6",
+    "outDir": "wwwroot/js",
+    "rootDir": "scripts",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "sourceMap": true
+},
+"include": [
+    "scripts/**/*.ts"
+]
+}
