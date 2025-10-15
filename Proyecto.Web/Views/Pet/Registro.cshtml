@@ -1,5 +1,5 @@
 @section Scripts {
-    <script src="~/js/prueba.js"></script>
+    <script src="~/js/registro.js"></script>
 }
 
 
@@ -16,43 +16,42 @@
         <div class="mb-3"> 
 <label for="periodo-semestral">Periodo Semestral</label>
 <select class="form-control" id="periodo-semestral">
-<option>Seleccione un elemento</option>
-<option>2025-1 (Septiembre 2025 - Enero 2026)</option>
-<option>2024-2 (Febrero 2026 - Julio 2025)</option>
+<option value="0">Seleccione un elemento</option>
+<option value="2">2025-1 (Septiembre 2025 - Enero 2026)</option>
+<option value="3">2024-2 (Febrero 2026 - Julio 2025)</option>
 </select>
 </div>
-</div>
+</div> 
 
  <div class="col-md-6">
         <div class="mb-3"> 
-<label for="Grupo">Grupo</label>
-<select class="form-control" id="Grupo">
-<option>Seleccione un elemento</option>
-<option>3A (Contabilidad)</option>
-<option>3B (Construccion)</option>
-<option>3C (Electronica)</option>
-<option>3D (Programacion)</option>
-
+<label for="grupo">Grupo</label>
+<select class="form-control" id="grupo">
+<option value="0">Seleccione un elemento</option>
+<option value="1">3A (Contabilidad)</option>
+<option value="2">3B (Construccion)</option>
+<option value="3">3C (Electronica)</option>
+<option value="4">3D (Programacion)</option>
 </select>
 </div>
 </div>
 
 <div class="col-md-6">
         <div class="mb-3"> 
-<label for="Registrado por">Registrado por</label>
-<select class="form-control" id="Grupo">
-<option>Seleccione un elemento</option>
-<option>Jefe de Docentes</option>
-<option>Alumno de Servicio 1</option>
-<option>Alumno de Servicio 2</option>
+<label for="registrado por">Registrado por</label>
+<select class="form-control" id="registrado por">
+<option value="0">Seleccione un elemento</option>
+<option value="1">Jefe de Docentes</option>
+<option value="2">Alumno de Servicio 1</option>
+<option value="3">Alumno de Servicio 2</option>
 </select>
 </div>
 </div>
 
 <div class="col-md-6">
         <div class="mb-3">
-<label for ="Fecha">Fecha</label>
-<input type="date" class="form-control" id="Fecha" disabled />
+<label for ="fecha">Fecha</label>
+<input type="date" class="form-control" id="fecha" disabled />
 </div>
 </div>
 
@@ -80,7 +79,7 @@
 </div>
 
 <div class="card-footer d-flex justify-content-end">
-<button class="btn btn-primary" type="button">Registrar</button>
+<button class="btn btn-primary" type="button" id="boton-registrar">Registrar</button>
 </div>
 </div>
 </div>
