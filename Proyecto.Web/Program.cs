@@ -1,7 +1,10 @@
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews()
+.AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
+
+builder.Services.AddTransient<Proyecto.Clases.PeriodoSemestralDb>();
 
 var app = builder.Build();
 
