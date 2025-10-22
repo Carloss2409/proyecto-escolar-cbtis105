@@ -5,7 +5,8 @@ builder.Services.AddControllersWithViews()
 .AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
 
 builder.Services.AddTransient<Proyecto.Clases.PeriodoSemestralDb>();
-
+builder.Services.AddTransient<Proyecto.Clases.GrupoDb>();
+builder.Services.AddTransient<Proyecto.Clases.PersonalDb>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
