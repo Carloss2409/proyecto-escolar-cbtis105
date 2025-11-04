@@ -2,6 +2,8 @@ document.addEventListener("DOMContentLoaded", () => {
 // inicicializar los eventos
 const boton = document.getElementById("boton-registrar");
 boton.addEventListener("click", registrar);
+
+cargarPeriodos();
     });
     function registrar(){
         const periodo = document.getElementById("periodo-semestral") as HTMLSelectElement; 
@@ -89,3 +91,17 @@ div.innerText = texto;
             div.remove();
         }
          }
+async function cargarPeriodos(){
+    const url = "/api/periodos-semestrales";
+    var respuesta = await fetch(url);
+    if(respuesta.ok){
+        //obtuvo los eleementos desde la peticion a la api
+        const datos = await respuesta.json();
+        console.log("La respuesta es ", datos);
+          }
+            
+          else{
+            alert("Ocurrio un error al obtener los periodos semestrales");
+        }
+           }
+           
