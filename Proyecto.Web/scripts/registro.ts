@@ -1,7 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
 // inicicializar los eventos
 const boton = document.getElementById("boton-registrar");
+ const periodo = document.getElementById("periodo-semestral") as HTMLSelectElement; 
 boton.addEventListener("click", registrar);
+periodo.addEventListener("change", cargarGrupos);
 
 cargarPeriodos();
     });
@@ -96,12 +98,58 @@ async function cargarPeriodos(){
     var respuesta = await fetch(url);
     if(respuesta.ok){
         //obtuvo los eleementos desde la peticion a la api
-        const datos = await respuesta.json();
+        const datos: Array<Periodo> = await respuesta.json();
         console.log("La respuesta es ", datos);
+         const periodo = document.getElementById("periodo-semestral") as HTMLSelectElement; 
+         periodo.innerHTML = "";
+
+         const opcionDefault = document.createElement("option");
+         opcionDefault.value = "0";
+         opcionDefault.text = "(Seleccione un periodo)";
+
+         periodo.appendChild(opcionDefault);
+         datos.map(p => {
+            const opcion = document.createElement("option");
+            opcion.value = ((p.Anio * 100) + p.Periodo).toString();
+            opcion.text = p.Anio.toString() + "-" + p.Periodo.toString() + " " + p.Nombre;
+             periodo.appendChild(opcion);
+
+         });
           }
             
           else{
             alert("Ocurrio un error al obtener los periodos semestrales");
         }
+
            }
+          async function cargarGrupos(){
+            const periodo = document.getElementById("periodo-semestral") as HTMLSelectElement; 
+             const url = "/api/grupos?periodo=" + periodo.value;
+    var respuesta = await fetch(url);
+    if(respuesta.ok){
+         const grupo = document.getElementById("grupo") as HTMLSelectElement;
+         grupo.innerHTML = "";
+
+         const opcionDefault = document.createElement("option");
+         opcionDefault.value = "0";
+            opcionDefault.value = "(Seleccione un grupo)";
+
+            grupo.appendChild(opcionDefault);
+
+            const datos = await respuesta.json();
+
+            console.log(datos);
+            }
+            else{
+            alert("Ocurrio un error al obtener los datos de los grupos");
+        }
+            }
+
+           type Periodo ={
+            Id: string,
+            Nombre: string,
+            Anio: number,
+            Periodo: number
+           }
+           
            
