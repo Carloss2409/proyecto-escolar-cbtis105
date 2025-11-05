@@ -6,6 +6,7 @@ boton.addEventListener("click", registrar);
 periodo.addEventListener("change", cargarGrupos);
 
 cargarPeriodos();
+cargarPersonal();
     });
     function registrar(){
         const periodo = document.getElementById("periodo-semestral") as HTMLSelectElement; 
@@ -14,6 +15,7 @@ cargarPeriodos();
         const numControl = document.getElementById("num control") as HTMLInputElement;
         const alumno = document.getElementById("alumno") as HTMLInputElement;
         const peso = document.getElementById("peso") as HTMLInputElement;
+
 
         limpiarError(periodo.id);
         limpiarError(grupo.id);
@@ -152,6 +154,34 @@ async function cargarPeriodos(){
             alert("Error al obtener los datos de los grupos");
         }
             }
+            async function cargarPersonal(){
+  const url = "/api/personal";
+  var respuesta = await fetch(url);
+  if (respuesta.ok) {
+
+    // obtuvo los elementos desde la petición API
+    const datos: Array<Personal> = await respuesta.json();
+    console.log("La respuesta es", datos);
+    const personal = document.getElementById("registrado-por") as HTMLSelectElement;
+    personal.innerHTML = "";
+
+    const opcionDefault = document.createElement("option");
+    opcionDefault.value = "0";
+    opcionDefault.text = "(seleccione un personal)";
+
+    personal.appendChild(opcionDefault);
+
+      datos.map(P => {
+      const opcion = document.createElement("option");
+      opcion.value = P.Nombre;
+      opcion.text = P.Nombre + " - " + P.Cargo;
+      personal.appendChild(opcion);
+    });
+  } else {
+    alert("Ocurrió un error al obtener el personal");
+  }
+}
+
 
            type Periodo = {
             Id: string,
@@ -167,6 +197,12 @@ async function cargarPeriodos(){
             Turno: string,
             Periodo: number
            }
+           type Personal = {
+            Id: string,
+            Nombre: string,
+            Cargo: string
+            }
+
 
          
          

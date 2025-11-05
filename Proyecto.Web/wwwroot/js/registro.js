@@ -14,6 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
     boton.addEventListener("click", registrar);
     periodo.addEventListener("change", cargarGrupos);
     cargarPeriodos();
+    cargarPersonal();
 });
 function registrar() {
     const periodo = document.getElementById("periodo-semestral");
@@ -138,6 +139,32 @@ function cargarGrupos() {
         }
         else {
             alert("Error al obtener los datos de los grupos");
+        }
+    });
+}
+function cargarPersonal() {
+    return __awaiter(this, void 0, void 0, function* () {
+        const url = "/api/personal";
+        var respuesta = yield fetch(url);
+        if (respuesta.ok) {
+            // obtuvo los elementos desde la petición API
+            const datos = yield respuesta.json();
+            console.log("La respuesta es", datos);
+            const personal = document.getElementById("registrado-por");
+            personal.innerHTML = "";
+            const opcionDefault = document.createElement("option");
+            opcionDefault.value = "0";
+            opcionDefault.text = "(seleccione un personal)";
+            personal.appendChild(opcionDefault);
+            datos.map(P => {
+                const opcion = document.createElement("option");
+                opcion.value = P.Nombre;
+                opcion.text = P.Nombre + " - " + P.Cargo;
+                personal.appendChild(opcion);
+            });
+        }
+        else {
+            alert("Ocurrió un error al obtener el personal");
         }
     });
 }

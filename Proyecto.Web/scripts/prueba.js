@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+console.log("Typescript en ejecución");
+function saludar(nombre) {
+    return "Hola " + nombre;
+}
+document.addEventListener("DOMContentLoaded", () => {
+    alert(saludar("Carlos"));
+});
+//# sourceMappingURL=prueba.js.map
