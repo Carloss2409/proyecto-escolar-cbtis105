@@ -98,7 +98,7 @@ async function cargarPeriodos(){
     var respuesta = await fetch(url);
     if(respuesta.ok){
         //obtuvo los eleementos desde la peticion a la api
-        const datos: Array<Periodo> = await respuesta.json();
+        const datos : Array<Periodo> = await respuesta.json();
         console.log("La respuesta es ", datos);
          const periodo = document.getElementById("periodo-semestral") as HTMLSelectElement; 
          periodo.innerHTML = "";
@@ -136,16 +136,16 @@ async function cargarPeriodos(){
 
             grupo.appendChild(opcionDefault);
 
-            const datos = await respuesta.json();
+            const datos  = await respuesta.json();
 
             console.log(datos);
             }
             else{
-            alert("Ocurrio un error al obtener los datos de los grupos");
+            alert("Error al obtener los datos de los grupos");
         }
             }
 
-           type Periodo ={
+           type Periodo = {
             Id: string,
             Nombre: string,
             Anio: number,

@@ -131,7 +131,7 @@ function cargarGrupos() {
             console.log(datos);
         }
         else {
-            alert("Ocurrio un error al obtener los datos de los grupos");
+            alert("Error al obtener los datos de los grupos");
         }
     });
 }
