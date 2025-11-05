@@ -120,14 +120,20 @@ function cargarGrupos() {
         const periodo = document.getElementById("periodo-semestral");
         const url = "/api/grupos?periodo=" + periodo.value;
         var respuesta = yield fetch(url);
+        const grupo = document.getElementById("grupo");
+        grupo.innerHTML = "";
+        const opcionDefault = document.createElement("option");
+        opcionDefault.value = "0";
+        opcionDefault.text = "(Seleccione un grupo)";
+        grupo.appendChild(opcionDefault);
         if (respuesta.ok) {
-            const grupo = document.getElementById("grupo");
-            grupo.innerHTML = "";
-            const opcionDefault = document.createElement("option");
-            opcionDefault.value = "0";
-            opcionDefault.value = "(Seleccione un grupo)";
-            grupo.appendChild(opcionDefault);
             const datos = yield respuesta.json();
+            datos.map(g => {
+                const opcion = document.createElement("option");
+                opcion.value = g.Id;
+                opcion.text = g.Semestre + g.Nombre + " - " + g.Carrera + " " + g.Turno;
+                grupo.appendChild(opcion);
+            });
             console.log(datos);
         }
         else {

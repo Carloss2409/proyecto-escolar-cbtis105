@@ -12,10 +12,10 @@ public class PeriodoSemestral
 
     [BsonElement("anio")]
 
-    public DateTime Anio { get; set; }
+    public int Anio { get; set; }
 
     [BsonElement("periodo")]
-    public DateTime Periodo { get; set; }
+    public int Periodo { get; set; }
 
 }
     

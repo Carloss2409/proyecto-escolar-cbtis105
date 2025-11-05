@@ -126,19 +126,27 @@ async function cargarPeriodos(){
             const periodo = document.getElementById("periodo-semestral") as HTMLSelectElement; 
              const url = "/api/grupos?periodo=" + periodo.value;
     var respuesta = await fetch(url);
+    const grupo = document.getElementById("grupo") as HTMLSelectElement;
+    grupo.innerHTML = "";
+
+    const opcionDefault = document.createElement("option");
+    opcionDefault.value = "0";
+    opcionDefault.text= "(Seleccione un grupo)";
+
+    grupo.appendChild(opcionDefault);
     if(respuesta.ok){
-         const grupo = document.getElementById("grupo") as HTMLSelectElement;
-         grupo.innerHTML = "";
+            const datos:Array<Grupo> = await respuesta.json();
+            datos.map(g => {
+                const opcion = document.createElement("option");
+                opcion.value = g.Id;
+                opcion.text = g.Semestre + g.Nombre + " - " + g.Carrera + " " + g.Turno;
 
-         const opcionDefault = document.createElement("option");
-         opcionDefault.value = "0";
-            opcionDefault.value = "(Seleccione un grupo)";
+                grupo.appendChild(opcion);
 
-            grupo.appendChild(opcionDefault);
-
-            const datos  = await respuesta.json();
+            });
 
             console.log(datos);
+            
             }
             else{
             alert("Error al obtener los datos de los grupos");
@@ -151,5 +159,14 @@ async function cargarPeriodos(){
             Anio: number,
             Periodo: number
            }
-           
-           
+           type Grupo = {
+            Id: string,
+            Nombre: string,
+            Semestre: number,
+            Carrera: string,
+            Turno: string,
+            Periodo: number
+           }
+
+         
+         
