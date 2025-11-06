@@ -7,6 +7,7 @@ builder.Services.AddControllersWithViews()
 builder.Services.AddTransient<Proyecto.Clases.PeriodoSemestralDb>();
 builder.Services.AddTransient<Proyecto.Clases.GrupoDb>();
 builder.Services.AddTransient<Proyecto.Clases.PersonalDb>();
+builder.Services.AddTransient<Proyecto.Clases.RegistroPetDb>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
