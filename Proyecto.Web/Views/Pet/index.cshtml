@@ -1,7 +1,28 @@
+@section Scripts {
+    <script src="~/js/periodos.js"></script>
+    <script src="~/js/listado-registros.js"></script>
+}
+
 <h1>Entrega de PET</h1>
 
 <div class="card" > 
 <div class="card-header">Busqueda</div>
+<div class="card-body">
+    <div class="row">
+        <div class="col"> 
+        <div class="mb-3"> 
+            <label for="periodo">Periodo Semestral </label>
+            <select class="form-control" id="periodo">
+                 </select>
+             </div>
+        </div>
+    </div>
+</div>
+<div class="card-footer d-flex justify-content-end">
+<a href="~/pet/registro" class="btn btn-secondary">Nuevo</a>
+    <button class="btn btn-primary" Id= "boton-buscar">Buscar</button>
+
+</div>
 </div>
 
 <div class="card mt-4" >
@@ -18,6 +39,8 @@
                    <th>Peso</th>
                 </tr>
             </thead>
+            <tbody id="registros">
+             </tbody
         </table>
     </div>
 </div>

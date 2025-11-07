@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const periodo = document.getElementById("periodo-semestral");
     boton.addEventListener("click", registrar);
     periodo.addEventListener("change", cargarGrupos);
-    cargarPeriodos();
+    cargarPeriodos(periodo);
     cargarPersonal();
 });
 function registrar() {
@@ -89,32 +89,6 @@ function limpiarError(id) {
     if (div) {
         div.remove();
     }
-}
-function cargarPeriodos() {
-    return __awaiter(this, void 0, void 0, function* () {
-        const url = "/api/periodos-semestrales";
-        var respuesta = yield fetch(url);
-        if (respuesta.ok) {
-            //obtuvo los eleementos desde la peticion a la api
-            const datos = yield respuesta.json();
-            console.log("La respuesta es ", datos);
-            const periodo = document.getElementById("periodo-semestral");
-            periodo.innerHTML = "";
-            const opcionDefault = document.createElement("option");
-            opcionDefault.value = "0";
-            opcionDefault.text = "(Seleccione un periodo)";
-            periodo.appendChild(opcionDefault);
-            datos.map(p => {
-                const opcion = document.createElement("option");
-                opcion.value = ((p.Anio * 100) + p.Periodo).toString();
-                opcion.text = p.Anio.toString() + "-" + p.Periodo.toString() + " " + p.Nombre;
-                periodo.appendChild(opcion);
-            });
-        }
-        else {
-            alert("Ocurrio un error al obtener los periodos semestrales");
-        }
-    });
 }
 function cargarGrupos() {
     return __awaiter(this, void 0, void 0, function* () {
