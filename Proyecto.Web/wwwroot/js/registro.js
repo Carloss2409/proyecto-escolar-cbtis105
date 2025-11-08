@@ -8,7 +8,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 document.addEventListener("DOMContentLoaded", () => {
-    // inicicializar los eventos
     const boton = document.getElementById("boton-registrar");
     const periodo = document.getElementById("periodo-semestral");
     boton.addEventListener("click", registrar);
@@ -19,8 +18,8 @@ document.addEventListener("DOMContentLoaded", () => {
 function registrar() {
     const periodo = document.getElementById("periodo-semestral");
     const grupo = document.getElementById("grupo");
-    const registrado = document.getElementById("registrado por");
-    const numControl = document.getElementById("num control");
+    const registrado = document.getElementById("registrado-por");
+    const numControl = document.getElementById("num-control");
     const alumno = document.getElementById("alumno");
     const peso = document.getElementById("peso");
     limpiarError(periodo.id);
@@ -30,19 +29,19 @@ function registrar() {
     limpiarError(alumno.id);
     limpiarError(peso.id);
     let ok = true;
-    if (!alumno.value || alumno.value.trim() == "") {
+    if (!alumno.value || alumno.value.trim() === "") {
         mostrarError(alumno.id, "Dato requerido");
         ok = false;
     }
-    if (!numControl.value || numControl.value.trim() == "") {
+    if (!numControl.value || numControl.value.trim() === "") {
         mostrarError(numControl.id, "Dato requerido");
         ok = false;
     }
-    else if (numControl.value.trim().length != 14) {
-        mostrarError(numControl.id, "Debe capturar 14 digitos");
+    else if (numControl.value.trim().length !== 14) {
+        mostrarError(numControl.id, "Debe capturar 14 dígitos");
         ok = false;
     }
-    if (!peso.value || peso.value.trim() == "") {
+    if (!peso.value || peso.value.trim() === "") {
         mostrarError(peso.id, "Dato requerido");
         ok = false;
     }
@@ -53,22 +52,21 @@ function registrar() {
             ok = false;
         }
     }
-    if (periodo.value == "0") {
+    if (periodo.value === "0") {
         mostrarError(periodo.id, "Dato requerido");
         ok = false;
     }
-    if (grupo.value == "0") {
+    if (grupo.value === "0") {
         mostrarError(grupo.id, "Dato requerido");
         ok = false;
     }
-    if (registrado.value == "0") {
+    if (registrado.value === "0") {
         mostrarError(registrado.id, "Dato requerido");
         ok = false;
     }
-    if (!ok) {
+    if (!ok)
         return;
-    }
-    alert("Vamos a guardar el registro");
+    guardaRegistro();
 }
 function mostrarError(id, texto) {
     const divId = "error-" + id;
@@ -86,15 +84,14 @@ function limpiarError(id) {
     const controlPorValidar = document.getElementById(id);
     const div = document.getElementById(divId);
     controlPorValidar.classList.remove("is-invalid");
-    if (div) {
+    if (div)
         div.remove();
-    }
 }
 function cargarGrupos() {
     return __awaiter(this, void 0, void 0, function* () {
         const periodo = document.getElementById("periodo-semestral");
         const url = "/api/grupos?periodo=" + periodo.value;
-        var respuesta = yield fetch(url);
+        const respuesta = yield fetch(url);
         const grupo = document.getElementById("grupo");
         grupo.innerHTML = "";
         const opcionDefault = document.createElement("option");
@@ -109,7 +106,6 @@ function cargarGrupos() {
                 opcion.text = g.Semestre + g.Nombre + " - " + g.Carrera + " " + g.Turno;
                 grupo.appendChild(opcion);
             });
-            console.log(datos);
         }
         else {
             alert("Error al obtener los datos de los grupos");
@@ -119,16 +115,14 @@ function cargarGrupos() {
 function cargarPersonal() {
     return __awaiter(this, void 0, void 0, function* () {
         const url = "/api/personal";
-        var respuesta = yield fetch(url);
+        const respuesta = yield fetch(url);
         if (respuesta.ok) {
-            // obtuvo los elementos desde la petición API
             const datos = yield respuesta.json();
-            console.log("La respuesta es", datos);
             const personal = document.getElementById("registrado-por");
             personal.innerHTML = "";
             const opcionDefault = document.createElement("option");
             opcionDefault.value = "0";
-            opcionDefault.text = "(seleccione un personal)";
+            opcionDefault.text = "(Seleccione un personal)";
             personal.appendChild(opcionDefault);
             datos.map(P => {
                 const opcion = document.createElement("option");
@@ -139,6 +133,39 @@ function cargarPersonal() {
         }
         else {
             alert("Ocurrió un error al obtener el personal");
+        }
+    });
+}
+function guardaRegistro() {
+    return __awaiter(this, void 0, void 0, function* () {
+        const periodo = document.getElementById("periodo-semestral");
+        const grupo = document.getElementById("grupo");
+        const registrado = document.getElementById("registrado-por");
+        const numControl = document.getElementById("num-control");
+        const alumno = document.getElementById("alumno");
+        const peso = document.getElementById("peso");
+        const registro = {
+            Alumno: alumno.value,
+            AnioPeriodo: parseInt(periodo.value),
+            IdGrupo: grupo.value,
+            IdPersonal: registrado.value,
+            NumControl: numControl.value,
+            Peso: parseFloat(peso.value)
+        };
+        console.log("Objeto a guardar:", registro);
+        const url = "/api/pet/registro";
+        const respuest = yield fetch(url, {
+            body: JSON.stringify(registro),
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+        if (respuest.ok) {
+            alert("Registro guardado correctamente");
+        }
+        else {
+            alert("Ocurrió un error al guardar el registro");
         }
     });
 }
