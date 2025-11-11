@@ -19,4 +19,8 @@ public class RegistroPetDb
         var list = await this.collection.Find(filter).ToListAsync();
         return list;
     }
+    public void Insertar(Proyecto.Clases.RegistroPet item)
+    {
+        this.collection.InsertOne(item);
+    }
 }

@@ -126,7 +126,7 @@ function cargarPersonal() {
             personal.appendChild(opcionDefault);
             datos.map(P => {
                 const opcion = document.createElement("option");
-                opcion.value = P.Nombre;
+                opcion.value = P.Id;
                 opcion.text = P.Nombre + " - " + P.Cargo;
                 personal.appendChild(opcion);
             });
@@ -163,6 +163,7 @@ function guardaRegistro() {
         });
         if (respuest.ok) {
             alert("Registro guardado correctamente");
+            location.href = "/pet";
         }
         else {
             alert("Ocurrió un error al guardar el registro");

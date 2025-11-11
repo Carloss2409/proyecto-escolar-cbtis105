@@ -23,4 +23,11 @@ public class GrupoDb
         var list = await this.collection.Find(filter).ToListAsync();
         return list;
     }
+public async Task<Grupo>Obtener(string id)
+    {
+        var filter = Builders<Grupo>.Filter.Eq(x => x.Id, id);
+        var item = await this.collection.Find(filter).FirstOrDefaultAsync();
+        return item;
+    }
+
 }

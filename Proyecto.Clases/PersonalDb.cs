@@ -18,8 +18,14 @@ public class PersonalDb
     }
     public async Task<List<Personal>> Listar()
     {
-        FilterDefinition<Personal> filter = FilterDefinition<Personal>.Empty;
+        var filter = FilterDefinition<Personal>.Empty;
         var list = await this.collection.Find(filter).ToListAsync();
-        return list; 
+        return list;
+    }
+    public async Task<Personal>Obtener(string id)
+    {
+        var filter = Builders<Personal>.Filter.Eq(x => x.Id, id);
+        var item = await this.collection.Find(filter).FirstOrDefaultAsync();
+        return item;
     }
 }
