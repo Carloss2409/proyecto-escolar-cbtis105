@@ -67,7 +67,7 @@ function registrar() {
 
   if (!ok) return;
 
-  guardaRegistro();
+  guardarRegistro();
 }
 
 function mostrarError(id: string, texto: string) {
@@ -140,7 +140,7 @@ async function cargarPersonal() {
   }
 }
 
-async function guardaRegistro() {
+async function guardarRegistro() {
   const periodo = document.getElementById("periodo-semestral") as HTMLSelectElement; 
   const grupo = document.getElementById("grupo") as HTMLSelectElement;
   const registrado = document.getElementById("registrado-por") as HTMLSelectElement;

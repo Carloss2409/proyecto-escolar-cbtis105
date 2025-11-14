@@ -43,4 +43,21 @@ public class RegistroPetController : ControllerBase{
         
         return Ok();
     }
+    [HttpGet("peso-total")]
+    public async Task<IActionResult> ConteoPorPeriodo(int periodo)
+    {
+        var pesoTotal = await this.db.SumatoriaPorPeriodo(periodo);
+        return Ok(new  {
+            PesoTotal = pesoTotal
+        });
+    }
+
+ [HttpGet("peso-por-grupo")]
+    public async Task<IActionResult> PesoPorGrupo(int periodo)
+    {
+        var list = await this.db.ListarPorGrupo(periodo);
+        return Ok(list);
+       
+    }
+
 }

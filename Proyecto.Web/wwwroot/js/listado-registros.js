@@ -10,9 +10,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 document.addEventListener("DOMContentLoaded", () => {
     var periodo = document.getElementById("periodo");
     var buscar = document.getElementById("boton-buscar");
-    buscar.addEventListener("click", cargarRegistros);
+    buscar.addEventListener("click", clickBoton);
     cargarPeriodos(periodo);
 });
+function clickBoton() {
+    cargarRegistros();
+    mostrarPesoTotal();
+}
 function cargarRegistros() {
     return __awaiter(this, void 0, void 0, function* () {
         var periodo = document.getElementById("periodo");
@@ -50,6 +54,21 @@ function cargarRegistros() {
         }
         else {
             alert("Error al cargar los registros");
+        }
+    });
+}
+function mostrarPesoTotal() {
+    return __awaiter(this, void 0, void 0, function* () {
+        var periodo = document.getElementById("periodo");
+        const controlPeso = document.getElementById("peso-total");
+        const url = "/api/pet/registro/peso-total?periodo=" + periodo.value;
+        const respuesta = yield fetch(url);
+        if (respuesta.ok) {
+            const datos = yield respuesta.json();
+            controlPeso.innerText = datos.PesoTotal + "KG";
+        }
+        else {
+            alert("Ocurrio un error al obtener el peso total");
         }
     });
 }

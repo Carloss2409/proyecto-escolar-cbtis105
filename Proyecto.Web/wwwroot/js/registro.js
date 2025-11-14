@@ -66,7 +66,7 @@ function registrar() {
     }
     if (!ok)
         return;
-    guardaRegistro();
+    guardarRegistro();
 }
 function mostrarError(id, texto) {
     const divId = "error-" + id;
@@ -136,7 +136,7 @@ function cargarPersonal() {
         }
     });
 }
-function guardaRegistro() {
+function guardarRegistro() {
     return __awaiter(this, void 0, void 0, function* () {
         const periodo = document.getElementById("periodo-semestral");
         const grupo = document.getElementById("grupo");

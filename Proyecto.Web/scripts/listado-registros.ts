@@ -2,9 +2,14 @@ document.addEventListener("DOMContentLoaded", () => {
     var periodo = document.getElementById("periodo") as HTMLSelectElement;
     var buscar = document.getElementById("boton-buscar");
 
-    buscar.addEventListener("click", cargarRegistros);
+    buscar.addEventListener("click", clickBoton);
     cargarPeriodos(periodo);
 });
+function clickBoton(){
+cargarRegistros();
+mostrarPesoTotal();
+
+}
 
 async function cargarRegistros(){
     var periodo = document.getElementById("periodo") as HTMLSelectElement;
@@ -51,6 +56,22 @@ else{
 }
 }
 
+async function mostrarPesoTotal(){
+    var periodo = document.getElementById("periodo") as HTMLSelectElement;
+    const controlPeso = document.getElementById("peso-total")
+    const url = "/api/pet/registro/peso-total?periodo=" + periodo.value;
+
+const respuesta = await fetch(url);
+if(respuesta.ok){
+    const datos: peso = await respuesta.json();
+    controlPeso.innerText = datos.PesoTotal + "KG";
+
+}
+else {
+    alert ("Ocurrio un error al obtener el peso total");
+}
+}
+
 type Registro = {
     Id: string,
     PeriodoSemestral: number,
@@ -62,4 +83,7 @@ type Registro = {
     Peso: number
 }
 
+type peso = {
+PesoTotal: number
+}
 
