@@ -16,6 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
 function clickBoton() {
     cargarRegistros();
     mostrarPesoTotal();
+    cargarPesoPorGrupo(); //grupotabla
 }
 function cargarRegistros() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -65,10 +66,37 @@ function mostrarPesoTotal() {
         const respuesta = yield fetch(url);
         if (respuesta.ok) {
             const datos = yield respuesta.json();
-            controlPeso.innerText = datos.PesoTotal + "KG";
+            controlPeso.innerText = datos.PesoTotal + " KG";
         }
         else {
-            alert("Ocurrio un error al obtener el peso total");
+            alert("Ocurrió un error al obtener el peso total");
+        }
+    });
+}
+// Funcion tabla grupos
+function cargarPesoPorGrupo() {
+    return __awaiter(this, void 0, void 0, function* () {
+        var periodo = document.getElementById("periodo");
+        const url = "/api/pet/registro/peso-por-grupo?periodo=" + periodo.value;
+        const respuesta = yield fetch(url);
+        const tablebody = document.getElementById("tabla-grupos");
+        tablebody.innerHTML = "";
+        if (respuesta.ok) {
+            const datos = yield respuesta.json();
+            console.log("POR GRUPO:", datos);
+            datos.map(g => {
+                const fila = document.createElement("tr");
+                const colGrupo = document.createElement("td");
+                const colTotal = document.createElement("td");
+                colGrupo.innerText = g.Grupo;
+                colTotal.innerText = g.Total.toString() + " KG";
+                fila.appendChild(colGrupo);
+                fila.appendChild(colTotal);
+                tablebody.appendChild(fila);
+            });
+        }
+        else {
+            alert("Error al cargar los grupos");
         }
     });
 }

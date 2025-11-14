@@ -5,10 +5,11 @@ document.addEventListener("DOMContentLoaded", () => {
     buscar.addEventListener("click", clickBoton);
     cargarPeriodos(periodo);
 });
-function clickBoton(){
-cargarRegistros();
-mostrarPesoTotal();
 
+function clickBoton(){
+    cargarRegistros();
+    mostrarPesoTotal();
+    cargarPesoPorGrupo(); //grupotabla
 }
 
 async function cargarRegistros(){
@@ -18,6 +19,7 @@ async function cargarRegistros(){
 
     const tablebody = document.getElementById("registros");
     tablebody.innerHTML = "";
+    
     if(respuesta.ok){
         const datos: Array<Registro> = await respuesta.json();
         console.log(datos);
@@ -32,7 +34,7 @@ async function cargarRegistros(){
             const colGrupo = document.createElement("td");
 
             const fecha = new Date(r.Fecha);
-            const format =new Intl.DateTimeFormat("es-MX");
+            const format = new Intl.DateTimeFormat("es-MX");
 
             colPeriodo.innerText = r.PeriodoSemestral.toString();
             colFecha.innerText = format.format(fecha);
@@ -51,9 +53,9 @@ async function cargarRegistros(){
             tablebody.appendChild(fila);
         });
     }
-else{
-    alert("Error al cargar los registros");
-}
+    else{
+        alert("Error al cargar los registros");
+    }
 }
 
 async function mostrarPesoTotal(){
@@ -61,16 +63,49 @@ async function mostrarPesoTotal(){
     const controlPeso = document.getElementById("peso-total")
     const url = "/api/pet/registro/peso-total?periodo=" + periodo.value;
 
-const respuesta = await fetch(url);
-if(respuesta.ok){
-    const datos: peso = await respuesta.json();
-    controlPeso.innerText = datos.PesoTotal + "KG";
+    const respuesta = await fetch(url);
+    if(respuesta.ok){
+        const datos: peso = await respuesta.json();
+        controlPeso.innerText = datos.PesoTotal + " KG";
+    }
+    else {
+        alert("Ocurrió un error al obtener el peso total");
+    }
+}
 
+// Funcion tabla grupos
+async function cargarPesoPorGrupo(){
+    var periodo = document.getElementById("periodo") as HTMLSelectElement;
+    const url = "/api/pet/registro/peso-por-grupo?periodo=" + periodo.value;
+
+    const respuesta = await fetch(url);
+    const tablebody = document.getElementById("tabla-grupos");
+    
+    tablebody.innerHTML = "";
+
+    if(respuesta.ok){
+        const datos: Array<PesoGrupo> = await respuesta.json();
+        console.log("POR GRUPO:", datos);
+
+        datos.map(g => {
+            const fila = document.createElement("tr");
+            const colGrupo = document.createElement("td");
+            const colTotal = document.createElement("td");
+
+            colGrupo.innerText = g.Grupo;
+            colTotal.innerText = g.Total.toString() + " KG";
+
+            fila.appendChild(colGrupo);
+            fila.appendChild(colTotal);
+
+            tablebody.appendChild(fila);
+        });
+    }
+    else{
+        alert("Error al cargar los grupos");
+    }
 }
-else {
-    alert ("Ocurrio un error al obtener el peso total");
-}
-}
+
 
 type Registro = {
     Id: string,
@@ -84,6 +119,10 @@ type Registro = {
 }
 
 type peso = {
-PesoTotal: number
+    PesoTotal: number
 }
 
+type PesoGrupo = {
+    Grupo: string,
+    Total: number
+}
