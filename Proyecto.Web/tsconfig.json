@@ -2,12 +2,13 @@
 {
 "compilerOptions": {
     "target": "es6",
-    "module": "es6",
+    "module": "esnext",
     "outDir": "wwwroot/js",
     "rootDir": "scripts",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "sourceMap": true
+    "sourceMap": true,
+    "moduleResolution": "node"
 },
 "include": [
     "scripts/**/*.ts"

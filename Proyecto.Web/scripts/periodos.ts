@@ -5,7 +5,7 @@ type Periodo = {
             Periodo: number
            }
 
-          async function cargarPeriodos(periodo: HTMLSelectElement){
+    export async function cargarPeriodos(periodo: HTMLSelectElement){
     const url = "/api/periodos-semestrales";
     var respuesta = await fetch(url);
     if(respuesta.ok){

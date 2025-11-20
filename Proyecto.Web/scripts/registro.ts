@@ -1,3 +1,5 @@
+import { cargarPeriodos } from "./periodos";
+
 document.addEventListener("DOMContentLoaded", () => {
   const boton = document.getElementById("boton-registrar");
   const periodo = document.getElementById("periodo-semestral") as HTMLSelectElement; 

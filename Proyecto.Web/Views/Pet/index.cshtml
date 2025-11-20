@@ -1,5 +1,5 @@
 @section Scripts {
-    <script src="~/js/periodos.js"></script>
+    <script src="~/js/periodos.js" type="module"></script>
     <script src="~/js/listado-registros.js"></script>
 }
 
@@ -39,17 +39,32 @@
 
 
 <div class="card mt-4">
-    <div class="card-header">Registros por grupo</div>
+    <div class="card-header">Registros por Grupo</div>
     <div class="card-body">
-        <table class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th>Grupo</th>
-                    <th>Peso total</th>
-                </tr>
-            </thead>
-            <tbody id="tabla-grupos"></tbody>
-        </table>
+        <div class="row">
+            <div class="col-sm-4">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Grupo</th>
+                            <th>Peso Total</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-grupos">
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="col-sm-4">
+                <canvas id="grafica-1"></canvas>
+            </div>
+
+            
+            <div class="col-sm-4">
+                <canvas id="grafica-pie"></canvas>
+            </div>
+
+        </div>
     </div>
 </div>
 
