@@ -1,5 +1,6 @@
 import { cargarPeriodos } from "./periodos";
-import {Chart, registerables } from "chart.js"
+import { Chart, registerables } from "chart.js";
+import { saludo } from "./Carlos";
 
 document.addEventListener("DOMContentLoaded", () => {
     var periodo = document.getElementById("periodo") as HTMLSelectElement;
@@ -11,23 +12,23 @@ document.addEventListener("DOMContentLoaded", () => {
     Chart.register(...registerables);
 });
 
-function clickBoton(){
+function clickBoton() {
     cargarRegistros();
     mostrarPesoTotal();
-    cargarPesoPorGrupo(); 
+    cargarPesoPorGrupo();
     mostrarGrafica();
-    mostrarGraficaPie(); 
+    mostrarGraficaPie();
 }
 
-async function cargarRegistros(){
+async function cargarRegistros() {
     var periodo = document.getElementById("periodo") as HTMLSelectElement;
     const url = "/api/pet/registro?periodo=" + periodo.value;
     const respuesta = await fetch(url);
 
     const tablebody = document.getElementById("registros");
     tablebody.innerHTML = "";
-    
-    if(respuesta.ok){
+
+    if (respuesta.ok) {
         const datos: Array<Registro> = await respuesta.json();
         console.log(datos);
 
@@ -59,37 +60,35 @@ async function cargarRegistros(){
 
             tablebody.appendChild(fila);
         });
-    }
-    else{
+    } else {
         alert("Error al cargar los registros");
     }
 }
 
-async function mostrarPesoTotal(){
+async function mostrarPesoTotal() {
     var periodo = document.getElementById("periodo") as HTMLSelectElement;
-    const controlPeso = document.getElementById("peso-total")
+    const controlPeso = document.getElementById("peso-total");
     const url = "/api/pet/registro/peso-total?periodo=" + periodo.value;
 
     const respuesta = await fetch(url);
-    if(respuesta.ok){
+    if (respuesta.ok) {
         const datos: peso = await respuesta.json();
         controlPeso.innerText = datos.PesoTotal + " KG";
-    }
-    else {
+    } else {
         alert("Ocurrió un error al obtener el peso total");
     }
 }
 
-async function cargarPesoPorGrupo(){
+async function cargarPesoPorGrupo() {
     var periodo = document.getElementById("periodo") as HTMLSelectElement;
     const url = "/api/pet/registro/peso-por-grupo?periodo=" + periodo.value;
 
     const respuesta = await fetch(url);
     const tablebody = document.getElementById("tabla-grupos");
-    
+
     tablebody.innerHTML = "";
 
-    if(respuesta.ok){
+    if (respuesta.ok) {
         const datos: Array<PesoGrupo> = await respuesta.json();
         console.log("POR GRUPO:", datos);
 
@@ -106,57 +105,55 @@ async function cargarPesoPorGrupo(){
 
             tablebody.appendChild(fila);
         });
-    }
-    else{
+    } else {
         alert("Error al cargar los grupos");
     }
 }
 
-async function mostrarGrafica(){
-      var periodo = document.getElementById("periodo") as HTMLSelectElement;
+async function mostrarGrafica() {
+    var periodo = document.getElementById("periodo") as HTMLSelectElement;
     const url = "/api/pet/registro/peso-por-grupo?periodo=" + periodo.value;
     const respuesta = await fetch(url);
-    if(!respuesta.ok){
-        alert("Ocurrio un error al llenar la grafica de barras")
+    if (!respuesta.ok) {
+        alert("Ocurrio un error al llenar la grafica de barras");
         return;
     }
-const datos: Array<PesoGrupo> = await respuesta.json();
-const canvas = document.getElementById("grafica-1") as HTMLCanvasElement;
+    const datos: Array<PesoGrupo> = await respuesta.json();
+    const canvas = document.getElementById("grafica-1") as HTMLCanvasElement;
 
-const grafica1 = Chart.getChart(canvas);
-if(grafica1){
-    grafica1.destroy();
-}
+    const grafica1 = Chart.getChart(canvas);
+    if (grafica1) {
+        grafica1.destroy();
+    }
 
-const etiquetas: Array<string> = [];
-const kilos: Array<number> = [];
+    const etiquetas: Array<string> = [];
+    const kilos: Array<number> = [];
 
-datos.map (x => {
-    etiquetas.push(x.Grupo);
-    kilos.push(x.Total);
-});
+    datos.map(x => {
+        etiquetas.push(x.Grupo);
+        kilos.push(x.Total);
+    });
 
-const chart = new Chart(canvas,{ 
-type: "bar",
-data: {
-    labels: etiquetas,
-    datasets:[
-        {
-            label: "Kilos de PET",
-            data: kilos,
-            backgroundColor: ["#F54927", "#E6D537", "#366BE7", "#E1873D", "#50DD40",
-               "#6DB0AC", "#D9455B","#B438E5","#3D1FFF","#C05DA6"
+    new Chart(canvas, {
+        type: "bar",
+        data: {
+            labels: etiquetas,
+            datasets: [
+                {
+                    label: "Kilos de PET",
+                    data: kilos,
+                    backgroundColor: [
+                        "#F54927", "#E6D537", "#366BE7", "#E1873D", "#50DD40",
+                        "#6DB0AC", "#09455B", "#B438E5", "#3D1FFF", "#C05DA6"
+                    ]
+                }
             ]
+        },
+        options: {
+            responsive: true
         }
-    ]
-
-},
-options:{
-    responsive: true
+    });
 }
-});
-}
-
 
 async function mostrarGraficaPie() {
     var periodo = document.getElementById("periodo") as HTMLSelectElement;
@@ -184,35 +181,23 @@ async function mostrarGraficaPie() {
         kilos.push(x.Total);
     });
 
-    const colores = [
-        'rgb(255, 99, 132)',
-        'rgb(54, 162, 235)',
-        'rgb(255, 205, 86)',
-        'rgb(75, 192, 192)',
-        'rgb(153, 102, 255)',
-        'rgb(255, 159, 64)',
-        'rgb(218, 112, 214)',
-        'rgb(90, 180, 80)',
-        'rgb(200, 80, 70)',
-        'rgb(30, 30, 200)'
-    ];
-
-    const data = {
-        labels: etiquetas,
-        datasets: [{
-            label: "Kilos de PET",
-            data: kilos,
-            backgroundColor: colores,
-            hoverOffset: 4
-        }]
-    };
-
-    const config = {
-        type: "pie" as const,
-        data: data
-    };
-
-    new Chart(canvasPie, config);
+    new Chart(canvasPie, {
+        type: "pie",
+        data: {
+            labels: etiquetas,
+            datasets: [
+                {
+                    label: "Kilos de PET",
+                    data: kilos,
+                    backgroundColor: [
+                        "#F54927", "#E6D537", "#366BE7", "#E1873D", "#50DD40",
+                        "#6DB0AC", "#09455B", "#B438E5", "#3D1FFF", "#C05DA6"
+                    ],
+                    hoverOffset: 4
+                }
+            ]
+        }
+    });
 }
 
 type Registro = {

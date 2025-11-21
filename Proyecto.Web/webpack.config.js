@@ -5,7 +5,8 @@ mode: "development",
 entry: {
     "listado-registros" : "./scripts/listado-registros.ts",
     "periodos": "./scripts/periodos.ts",
-    "registro": "./scripts/registro.ts"
+    "registro": "./scripts/registro.ts",
+    "Carlos": "./scripts/Carlos.ts"   
 },
 output:{
     path: path.resolve(__dirname, "./wwwroot/js"),
