@@ -114,10 +114,12 @@ async function mostrarGrafica() {
     var periodo = document.getElementById("periodo") as HTMLSelectElement;
     const url = "/api/pet/registro/peso-por-grupo?periodo=" + periodo.value;
     const respuesta = await fetch(url);
+
     if (!respuesta.ok) {
-        alert("Ocurrio un error al llenar la grafica de barras");
+        alert("Ocurrió un error al llenar la gráfica de barras");
         return;
     }
+
     const datos: Array<PesoGrupo> = await respuesta.json();
     const canvas = document.getElementById("grafica-1") as HTMLCanvasElement;
 
@@ -134,7 +136,7 @@ async function mostrarGrafica() {
         kilos.push(x.Total);
     });
 
-    new Chart(canvas, {
+    const chart = new Chart(canvas, {
         type: "bar",
         data: {
             labels: etiquetas,
@@ -181,7 +183,7 @@ async function mostrarGraficaPie() {
         kilos.push(x.Total);
     });
 
-    new Chart(canvasPie, {
+    const chart = new Chart(canvasPie, {
         type: "pie",
         data: {
             labels: etiquetas,
@@ -196,6 +198,9 @@ async function mostrarGraficaPie() {
                     hoverOffset: 4
                 }
             ]
+        },
+        options: {
+            responsive: true
         }
     });
 }
