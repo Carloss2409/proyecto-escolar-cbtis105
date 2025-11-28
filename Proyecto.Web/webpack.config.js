@@ -6,7 +6,8 @@ entry: {
     "listado-registros" : "./scripts/listado-registros.ts",
     "periodos": "./scripts/periodos.ts",
     "registro": "./scripts/registro.ts",
-    "Carlos": "./scripts/Carlos.ts"   
+    "Carlos": "./scripts/Carlos.ts",
+    "acceso": "./scripts/acceso.ts"
 },
 output:{
     path: path.resolve(__dirname, "./wwwroot/js"),
