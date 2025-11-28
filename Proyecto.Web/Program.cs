@@ -8,6 +8,9 @@ builder.Services.AddTransient<Proyecto.Clases.PeriodoSemestralDb>();
 builder.Services.AddTransient<Proyecto.Clases.GrupoDb>();
 builder.Services.AddTransient<Proyecto.Clases.PersonalDb>();
 builder.Services.AddTransient<Proyecto.Clases.RegistroPetDb>();
+builder.Services.AddTransient<Proyecto.Clases.UsuarioDb>();
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
