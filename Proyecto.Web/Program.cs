@@ -1,3 +1,5 @@
+using Microsoft.IdentityModel.Tokens;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -9,6 +11,19 @@ builder.Services.AddTransient<Proyecto.Clases.GrupoDb>();
 builder.Services.AddTransient<Proyecto.Clases.PersonalDb>();
 builder.Services.AddTransient<Proyecto.Clases.RegistroPetDb>();
 builder.Services.AddTransient<Proyecto.Clases.UsuarioDb>();
+
+builder.Services.AddAuthentication( options =>
+{
+    options.DefaultAuthenticateScheme = "jwt";
+    options.DefaultAuthenticateScheme =  "cookie";
+}).AddCookie("cookie", options =>
+{
+    options.LoginPath = "/usuarios/acceso";
+}).AddJwtBearer("jwt", options =>
+{
+    options.TokenValidationParameters = GetTokenValidations(builder.Configuration);
+});
+
 
 
 var app = builder.Build();
@@ -34,3 +49,19 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+
+ TokenValidationParameters GetTokenValidations(IConfiguration config)
+{
+    return new TokenValidationParameters
+    {
+        ValidateAudience = true,
+        ValidateIssuer = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = config.GetValue<string>("Jwt:Issuer"),
+        ValidAudience = config.GetValue<string>("Jwt:Audience"),
+        IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(config.GetValue<string>("Jwt:Key")!))
+
+
+    };
+}
