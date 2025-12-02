@@ -5,14 +5,16 @@ boton.addEventListener("click", accesar);
 
 });
 
-function accesar(){
+ async function accesar(){
 const correo = document.getElementById ("correo") as HTMLInputElement;
 const password = document.getElementById("password") as HTMLInputElement;
+const mensaje = document.getElementById("mensaje") as HTMLDivElement;
 
 let ok = true;
 
 limpiarError(correo.id);
 limpiarError(password.id);
+mensaje.innerText = "";
 
 if(!correo.value){
 ok = false;
@@ -27,9 +29,21 @@ if(!ok){
     return;
 }
 
+const form = new FormData();
+form.append("correo", correo.value);
+form.append("password", password.value);
 //Llamar a la api
-    alert("Llamar a la api");
+const response = await fetch("/api/usuarios/validar", {
+  method: "post",
+  body: form
+});
 
+    if(response.ok){
+      location.href = "/pet/registro";  
+    }
+else{
+mensaje.innerText = await response.text();
+}
 }
 
 function mostrarError(id: string, texto: string) {
