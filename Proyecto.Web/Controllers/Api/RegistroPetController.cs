@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Proyecto.Web.Controllers.Api;
@@ -24,7 +25,7 @@ public class RegistroPetController : ControllerBase{
         var list = await this.db.Listar(periodo);
         return Ok(list);
     }
-    [HttpPost]
+    [HttpPost, Authorize(AuthenticationSchemes = "jwt")]
     public async Task<IActionResult> Guardar(Proyecto.Clases.GuardarRegistro model)
     {
         var personal = await this.personalDb.Obtener(model.IdPersonal);
