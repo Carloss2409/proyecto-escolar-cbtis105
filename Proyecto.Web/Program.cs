@@ -12,6 +12,7 @@ builder.Services.AddTransient<Proyecto.Clases.GrupoDb>();
 builder.Services.AddTransient<Proyecto.Clases.PersonalDb>();
 builder.Services.AddTransient<Proyecto.Clases.RegistroPetDb>();
 builder.Services.AddTransient<Proyecto.Clases.UsuarioDb>();
+builder.Services.AddTransient<Proyecto.Clases.PatrocinadorDb>();
 
 builder.Services.AddAuthentication(options =>
 {

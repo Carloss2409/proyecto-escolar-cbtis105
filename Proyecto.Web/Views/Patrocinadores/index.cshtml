@@ -1,0 +1,27 @@
+@model List<Proyecto.Clases.Patrocinador>
+
+@{
+    ViewData["Title"] = "Listado de Patrocinadores";
+}
+
+<h2>Patrocinadores</h2>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Domicilio</th>
+            <th>Tipo de Apoyo</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var p in Model)
+        {
+            <tr>
+                <td>@p.Nombre</td>
+                <td>@p.Domicilio</td>
+                <td>@p.TipoApoyo</td>
+            </tr>
+        }
+    </tbody>
+</table>
